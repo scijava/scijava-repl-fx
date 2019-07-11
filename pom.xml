@@ -86,7 +86,6 @@
 		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>
 
-                
 	</properties>
 
 	<repositories>
@@ -102,46 +101,12 @@
 			<groupId>org.scijava</groupId>
 			<artifactId>scijava-common</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>scripting-kotlin</artifactId>
-                        <version>0.1.1-SNAPSHOT</version>
-		</dependency>
 
 		<!-- Kotlin dependencies -->
-		<!-- <dependency> -->
-		<!-- 	<groupId>org.jetbrains.kotlin</groupId> -->
-		<!-- 	<artifactId>kotlin-stdlib-jdk8</artifactId> -->
-		<!-- 	<version>${kotlin.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- 	<groupId>org.jetbrains.kotlin</groupId> -->
-		<!-- 	<artifactId>kotlin-test</artifactId> -->
-		<!-- 	<version>${kotlin.version}</version> -->
-		<!-- 	<scope>test</scope> -->
-		<!-- </dependency> -->
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-compiler-embeddable</artifactId>
-			<version>${kotlin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-script-util</artifactId>
-			<version>${kotlin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-script-runtime</artifactId>
-			<version>${kotlin.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-scripting-compiler-embeddable</artifactId>
-			<version>${kotlin.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+		 <dependency>
+			 <groupId>org.jetbrains.kotlin</groupId>
+			 <artifactId>kotlin-stdlib-jdk8</artifactId>
+		 </dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
@@ -151,9 +116,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.scijava</groupId>
-			<artifactId>scijava-common</artifactId>
-			<classifier>tests</classifier>
+			<artifactId>scripting-kotlin</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scripting-groovy</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>

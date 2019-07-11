@@ -1,4 +1,4 @@
-package org.scijava.scripting.kotlin.fx
+package org.scijava.scripting.fx
 
 import javafx.application.Platform
 import javafx.beans.InvalidationListener
@@ -18,7 +18,7 @@ import javafx.scene.text.Font
 import org.scijava.Context
 import org.scijava.script.ScriptREPL
 
-private fun invokeOnFXApplicationThread(task: () -> Unit) = invokeOnFXApplicationThread(Runnable {task()})
+private fun invokeOnFXApplicationThread(task: () -> Unit) = invokeOnFXApplicationThread(Runnable { task() })
 
 private fun invokeOnFXApplicationThread(task: Runnable) {
     if (Platform.isFxApplicationThread())

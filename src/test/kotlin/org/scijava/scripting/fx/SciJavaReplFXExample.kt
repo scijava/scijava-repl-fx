@@ -1,4 +1,4 @@
-package org.scijava.scripting.kotlin.fx
+package org.scijava.scripting.fx
 
 import com.sun.javafx.application.PlatformImpl
 import javafx.application.Platform

@@ -1,4 +1,4 @@
-package org.scijava.scripting.kotlin.fx
+package org.scijava.scripting.fx
 
 import java.io.IOException
 import java.io.OutputStream

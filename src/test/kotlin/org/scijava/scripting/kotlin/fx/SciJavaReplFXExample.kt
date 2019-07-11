@@ -54,41 +54,48 @@ fun main() {
         }
     })
 
-    tabPane.addEventHandler(KeyEvent.KEY_PRESSED) {
-        if (KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN).match(it)) {
-            val repl = SciJavaReplFX(context)
+    val createAndAddRepl = {
+        val repl = SciJavaReplFX(context)
 
-            repl.setPromptPrefHeight(250.0)
+        repl.setPromptPrefHeight(250.0)
 
-            repl.getNode().addEventHandler(KeyEvent.KEY_PRESSED) {
-                if (increaseFontKeys.any { c -> c.match(it) }) {
-                    it.consume()
-                    repl.increaseFontSize()
-                } else if (decreaseFontKeys.any { c -> c.match(it) }) {
-                    it.consume()
-                    repl.decreaseFontSize()
-                }
+        repl.getNode().addEventHandler(KeyEvent.KEY_PRESSED) {
+            if (increaseFontKeys.any { c -> c.match(it) }) {
+                it.consume()
+                repl.increaseFontSize()
+            } else if (decreaseFontKeys.any { c -> c.match(it) }) {
+                it.consume()
+                repl.decreaseFontSize()
             }
+        }
+
+        repl.addPromptEventHandler(KeyEvent.KEY_PRESSED) {
+            if (evalKeys.any { c -> c.match(it) }) {
+                it.consume()
+                GlobalScope.launch { repl.evalCurrentPrompt() }
+            }
+        }
+        synchronized(replIds) {
+            val replId = smallestId(replIds.keys)
+            replIds[replId] = Pair(repl, Tab("REPL $replId", repl.getNode()))
 
             repl.addPromptEventHandler(KeyEvent.KEY_PRESSED) {
-                if (evalKeys.any { c -> c.match(it) }) {
+                if (exitKeyCombination.any { c -> c.match(it) }) {
                     it.consume()
-                    GlobalScope.launch { repl.evalCurrentPrompt() }
-                }
-            }
-            synchronized(replIds) {
-                val replId = smallestId(replIds.keys)
-                replIds[replId] = Pair(repl, Tab("REPL $replId", repl.getNode()))
-
-                repl.addPromptEventHandler(KeyEvent.KEY_PRESSED) {
-                    if (exitKeyCombination.any { c -> c.match(it) }) {
-                        it.consume()
-                        synchronized(replIds) {
-                            replIds.remove(replId)
-                        }
+                    synchronized(replIds) {
+                        replIds.remove(replId)
                     }
                 }
             }
+        }
+    }
+
+    createAndAddRepl()
+
+    tabPane.addEventHandler(KeyEvent.KEY_PRESSED) {
+        if (KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN).match(it)) {
+            it.consume()
+            createAndAddRepl()
         }
     }
 

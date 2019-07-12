@@ -76,7 +76,7 @@
 	</ciManagement>
 
 	<properties>
-		<package-name>org.scijava.plugins.scripting.kotlin</package-name>
+		<package-name>org.scijava.scripting.fx</package-name>
 		<license.licenseName>agpl_v3</license.licenseName>
 		<license.copyrightOwners>Board of Regents of the University of Wisconsin-Madison.</license.copyrightOwners>
 

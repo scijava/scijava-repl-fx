@@ -76,7 +76,6 @@
 	</ciManagement>
 
 	<properties>
-		<main-class>org.scijava.scripting.fx.SciJavaReplFXExample</main-class>
 		<package-name>org.scijava.scripting.fx</package-name>
 		<license.licenseName>agpl_v3</license.licenseName>
 		<license.copyrightOwners>Board of Regents of the University of Wisconsin-Madison.</license.copyrightOwners>
@@ -155,6 +154,16 @@
 			<artifactId>scripting-groovy</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
+
+	<profiles>
+		<!-- Launch Kotlin-enabled REPL via Maven using: mvn -Pexec,kotlin-repl -->
+		<profile>
+			<id>kotlin-repl</id>
+			<properties>
+				<main-class>org.scijava.scripting.fx.SciJavaReplFXExampleKt</main-class>
+				<exec.classpathScope>test</exec.classpathScope>
+			</properties>
+		</profile>
+	</profiles>
 </project>

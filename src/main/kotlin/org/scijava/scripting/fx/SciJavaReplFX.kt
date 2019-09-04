@@ -2,9 +2,6 @@ package org.scijava.scripting.fx
 
 import javafx.application.Platform
 import javafx.beans.InvalidationListener
-import javafx.event.Event
-import javafx.event.EventHandler
-import javafx.event.EventType
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Group
@@ -87,15 +84,6 @@ class SciJavaReplFX(context: Context) {
     val history: Node
         get() = _history
 
-    fun <T: Event> addPromptEventHandler(
-            eventType: EventType<T>,
-            eventHandler: EventHandler<T>) = _prompt.addEventHandler(eventType, eventHandler)
-
-
-    fun <T: Event> addPromptEventHandler(
-            eventType: EventType<T>,
-            eventHandler: (T) -> Unit) = addPromptEventHandler(eventType, EventHandler { eventHandler(it) })
-
     @Synchronized
     fun evalCurrentPrompt() {
         val promptText = _prompt.text
@@ -104,12 +92,12 @@ class SciJavaReplFX(context: Context) {
             _prompt.positionCaret(0)
             _prompt.promptText = "In [${count + 1}]:"
             _prompt.isEditable = false
-            _history.text = "${_history.text}\nIn  [$count]: ${promptText}\nOut [$count]: "
+            _history.text = "${_history.text}\nIn  [$count]: $promptText\nOut [$count]: "
             _history.positionCaret(_history.text.length)
         }
         // TODO use queue or block this thread here? could potentially block main application thread? bad?
         try {
-        repl.evaluate(promptText)
+            repl.evaluate(promptText)
         } finally {
             ++count
             invokeOnFXApplicationThread {
@@ -120,7 +108,7 @@ class SciJavaReplFX(context: Context) {
     }
 
     private fun scaleFontSisze(factor: Double) {
-        require(factor > 0, { "Factor > 0 required but received $factor <= 0" })
+        require(factor > 0) { "Factor > 0 required but received $factor <= 0" }
         val size     = _history.font.size
         val font     = Font.font("Monospace", size * factor)
         _history.font = font

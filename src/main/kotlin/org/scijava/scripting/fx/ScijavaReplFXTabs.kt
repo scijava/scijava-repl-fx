@@ -20,8 +20,30 @@ class ScijavaReplFXTabs(
         private val exitKeyCombination: Collection<KeyCombination> = setOf (KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)),
         private val createNewReplCombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
         private val cycleTabsForwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN)),
-        private val cycleTabsBackwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN))
+        private val cycleTabsBackwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
+        private val bindings: Map<String, *> = mapOf<String, Any>()
 ) {
+
+    constructor(
+            context: Context,
+            increaseFontKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_ANY)),
+            decreaseFontKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_ANY)),
+            evalKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN)),
+            exitKeyCombination: Collection<KeyCombination> = setOf (KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)),
+            createNewReplCombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
+            cycleTabsForwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN)),
+            cycleTabsBackwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
+            vararg bindings: Pair<String, *>
+    ) : this(
+            context,
+            increaseFontKeys,
+            decreaseFontKeys,
+            evalKeys,
+            exitKeyCombination,
+            createNewReplCombination,
+            cycleTabsForwardKombination,
+            cycleTabsBackwardKombination,
+            mapOf(*bindings))
 
 
     private val tabPane = TabPane()
@@ -44,8 +66,8 @@ class ScijavaReplFXTabs(
 
     fun createAndAddTab()  {
         val repl = SciJavaReplFX(context)
-
-        repl.setPromptPrefHeight(250.0)
+                .also { it.setPromptPrefHeight(250.0) }
+                .also { it.putBindings(bindings) }
 
         repl.node.addEventHandler(KeyEvent.KEY_PRESSED) {
             if (increaseFontKeys.any { c -> c.match(it) }) {

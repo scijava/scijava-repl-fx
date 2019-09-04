@@ -123,6 +123,10 @@ class SciJavaReplFX(context: Context) {
         _prompt.prefHeight = height
     }
 
+    fun putBindings(bindings: Map<String, *>) = repl.interpreter.bindings.putAll(bindings)
+
+    fun putBindings(vararg bindings: Pair<String, *>) = putBindings(mapOf(*bindings))
+
 
 
 }

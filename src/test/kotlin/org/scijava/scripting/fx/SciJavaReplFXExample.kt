@@ -6,13 +6,17 @@ import javafx.scene.Scene
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import org.scijava.Context
+import kotlin.math.sqrt
 
 fun main() {
 
     val context     = Context()
     PlatformImpl.startup {}
 
-    val tabPane = ScijavaReplFXTabs(context).also { it.createAndAddTab() }
+    val tabPane = ScijavaReplFXTabs(
+            context,
+            bindings = *arrayOf(Pair("mySqrt", { x: Double -> sqrt(x) })))
+            .also { it.createAndAddTab() }
 
     val root = StackPane(tabPane.node)
     Platform.runLater {

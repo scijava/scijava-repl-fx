@@ -86,6 +86,7 @@
 		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>
 
+		<scripting-kotlin.version>0.1.1</scripting-kotlin.version>
 	</properties>
 
 	<repositories>
@@ -117,7 +118,6 @@
 		<dependency>
 			<groupId>org.scijava</groupId>
 			<artifactId>scripting-kotlin</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

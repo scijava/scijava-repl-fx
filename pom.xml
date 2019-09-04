@@ -89,13 +89,6 @@
 		<scripting-kotlin.version>0.1.1</scripting-kotlin.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>scijava.public</id>
-			<url>https://maven.scijava.org/content/groups/public/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<!-- SciJava dependencies -->
 		<dependency>
@@ -104,10 +97,10 @@
 		</dependency>
 
 		<!-- Kotlin dependencies -->
-		 <dependency>
-			 <groupId>org.jetbrains.kotlin</groupId>
-			 <artifactId>kotlin-stdlib-jdk8</artifactId>
-		 </dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
@@ -127,4 +120,11 @@
 		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>scijava.public</id>
+			<url>https://maven.scijava.org/content/groups/public/</url>
+		</repository>
+	</repositories>
 </project>

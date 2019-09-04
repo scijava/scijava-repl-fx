@@ -29,13 +29,13 @@ private fun invokeOnFXApplicationThread(task: Runnable) {
 
 class SciJavaReplFX(context: Context) {
 
-    private val history       = TextArea("")
-    private val prompt        = TextArea("")
+    private val _history      = TextArea("")
+    private val _prompt       = TextArea("")
     private val progress      = ProgressIndicator(1.0)
     private val progressGroup = Group(progress)
-    private val historyStack  = StackPane(history, progressGroup)
-    private val box           = VBox(historyStack, prompt)
-    private val stream        = PrintToStringConsumerStream { invokeOnFXApplicationThread { history.text = "${history.text}$it" } }
+    private val historyStack  = StackPane(_history, progressGroup)
+    private val box           = VBox(historyStack, _prompt)
+    private val stream        = PrintToStringConsumerStream { invokeOnFXApplicationThread { _history.text = "${_history.text}$it" } }
     private val repl          = ScriptREPL(context, stream)
     private var count         = 0
 
@@ -43,29 +43,28 @@ class SciJavaReplFX(context: Context) {
 
 
         box.maxWidth          = Double.POSITIVE_INFINITY
-        history.maxWidth      = Double.POSITIVE_INFINITY
-        prompt.maxWidth       = Double.POSITIVE_INFINITY
+        _history.maxWidth     = Double.POSITIVE_INFINITY
+        _prompt.maxWidth      = Double.POSITIVE_INFINITY
         historyStack.maxWidth = Double.POSITIVE_INFINITY
 
         progress.prefWidth = 50.0
 
-        history.isWrapText = false
-        prompt.isWrapText  = false
+        _history.isWrapText = false
+        _prompt.isWrapText  = false
 
-        prompt.promptText = "In [$count]:"
+        _prompt.promptText = "In [$count]:"
 
         box.isFillWidth = true
 
-        history.maxHeight = Double.POSITIVE_INFINITY
-        if (repl.interpreter === null) {
+        _history.maxHeight = Double.POSITIVE_INFINITY
+        if (repl.interpreter === null)
             repl.lang(repl.interpretedLanguages.first())
-        }
 
-        history.isEditable = false
-        prompt.isEditable  = true
+        _history.isEditable = false
+        _prompt.isEditable  = true
 
-        history.font = Font.font("Monospace")
-        prompt.font  = Font.font("Monospace")
+        _history.font = Font.font("Monospace")
+        _prompt.font  = Font.font("Monospace")
 
         VBox.setVgrow(historyStack, Priority.ALWAYS)
         StackPane.setAlignment(progressGroup, Pos.BOTTOM_RIGHT)
@@ -73,17 +72,24 @@ class SciJavaReplFX(context: Context) {
 
         repl.initialize(true)
 
-        prompt.prefWidthProperty().addListener( InvalidationListener { prompt.maxHeight = prompt.prefHeight } )
-        prompt.editableProperty().addListener { obs, oldv, newv -> progress.progress = if (newv) 1.0 else -1.0 }
-        progress.visibleProperty().bind(prompt.editableProperty().not())
+        _prompt.prefWidthProperty().addListener( InvalidationListener { _prompt.maxHeight = _prompt.prefHeight } )
+        _prompt.editableProperty().addListener { _, _, new -> progress.progress = if (new) 1.0 else -1.0 }
+        progress.visibleProperty().bind(_prompt.editableProperty().not())
 
     }
 
-    fun getNode(): Node = box
+    val node: Node
+        get() = box
+
+    val prompt: Node
+        get() = _prompt
+
+    val history: Node
+        get() = _history
 
     fun <T: Event> addPromptEventHandler(
             eventType: EventType<T>,
-            eventHandler: EventHandler<T>) = prompt.addEventHandler(eventType, eventHandler)
+            eventHandler: EventHandler<T>) = _prompt.addEventHandler(eventType, eventHandler)
 
 
     fun <T: Event> addPromptEventHandler(
@@ -92,14 +98,14 @@ class SciJavaReplFX(context: Context) {
 
     @Synchronized
     fun evalCurrentPrompt() {
-        val promptText = prompt.text
+        val promptText = _prompt.text
         invokeOnFXApplicationThread {
-            prompt.text = ""
-            prompt.positionCaret(0)
-            prompt.promptText = "In [${count + 1}]:"
-            prompt.isEditable = false
-            history.text = "${history.text}\nIn  [$count]: ${promptText}\nOut [$count]: "
-            history.positionCaret(history.text.length)
+            _prompt.text = ""
+            _prompt.positionCaret(0)
+            _prompt.promptText = "In [${count + 1}]:"
+            _prompt.isEditable = false
+            _history.text = "${_history.text}\nIn  [$count]: ${promptText}\nOut [$count]: "
+            _history.positionCaret(_history.text.length)
         }
         // TODO use queue or block this thread here? could potentially block main application thread? bad?
         try {
@@ -107,18 +113,18 @@ class SciJavaReplFX(context: Context) {
         } finally {
             ++count
             invokeOnFXApplicationThread {
-                prompt.isEditable = true
-                history.positionCaret(history.text.length)
+                _prompt.isEditable = true
+                _history.positionCaret(_history.text.length)
             }
         }
     }
 
     private fun scaleFontSisze(factor: Double) {
         require(factor > 0, { "Factor > 0 required but received $factor <= 0" })
-        val size     = history.font.size
+        val size     = _history.font.size
         val font     = Font.font("Monospace", size * factor)
-        history.font = font
-        prompt.font  = font
+        _history.font = font
+        _prompt.font  = font
     }
 
     fun increaseFontSize(factor: Double = 1.1) = scaleFontSisze(factor)
@@ -126,7 +132,7 @@ class SciJavaReplFX(context: Context) {
     fun decreaseFontSize(factor: Double = 1.1) = scaleFontSisze(1.0 / factor)
 
     fun setPromptPrefHeight(height: Double) {
-        prompt.prefHeight = height
+        _prompt.prefHeight = height
     }
 
 

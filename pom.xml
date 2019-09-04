@@ -72,7 +72,7 @@
 	</issueManagement>
 	<ciManagement>
 		<system>Travis CI</system>
-		<url>https://travis-ci.org/scijava/scijava-repl-fx</url>
+		<url>https://travis-ci.com/scijava/scijava-repl-fx</url>
 	</ciManagement>
 
 	<properties>

@@ -8,6 +8,8 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
 import javafx.scene.input.KeyCombination
 import javafx.scene.input.KeyEvent
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.scijava.Context
 
 class ScijavaReplFXTabs(
@@ -59,8 +61,7 @@ class ScijavaReplFXTabs(
             when {
                 evalKeys.any { c -> c.match(it) } -> {
                     it.consume()
-                    // TODO use coroutines instead of thread
-                    Thread { repl.evalCurrentPrompt() }.start()
+                    GlobalScope.launch { repl.evalCurrentPrompt() }
                 }
                 cycleTabsForwardKombination.any { c -> c.match(it) } -> {
                     it.consume()

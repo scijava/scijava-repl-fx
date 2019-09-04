@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>scijava-repl-fx</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 
 	<name>SciJava Scripting REPL FX</name>
 	<description>JavaFX frontend for SciJava JSR-223-compliant scripting plugins.</description>
@@ -63,7 +63,7 @@
 	<scm>
 		<connection>scm:git:git://github.com/scijava/scijava-repl-fx</connection>
 		<developerConnection>scm:git:git@github.com:scijava/scijava-repl-fx</developerConnection>
-		<tag>HEAD</tag>
+		<tag>scijava-repl-fx-0.1.0</tag>
 		<url>https://github.com/scijava/scijava-repl-fx</url>
 	</scm>
 	<issueManagement>

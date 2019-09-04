@@ -7,14 +7,10 @@ import java.io.OutputStream
 class PrintToStringConsumerStream(private val target: (String) -> Unit) : OutputStream() {
 
     @Throws(IOException::class)
-    override fun write(var1: Int) {
-        NotImplementedError("Not supported!")
-    }
+    override fun write(var1: Int) = throw NotImplementedError("Not supported!")
 
     @Throws(IOException::class)
-    override fun write(data: ByteArray) {
-        this.write(data, 0, data.size)
-    }
+    override fun write(data: ByteArray) = this.write(data, 0, data.size)
 
     @Throws(IOException::class)
     override fun write(data: ByteArray?, start: Int, size: Int) {
@@ -28,12 +24,10 @@ class PrintToStringConsumerStream(private val target: (String) -> Unit) : Output
     }
 
     @Throws(IOException::class)
-    override fun flush() {
-    }
+    override fun flush() = Unit
 
     @Throws(IOException::class)
-    override fun close() {
-    }
+    override fun close() = Unit
 
 
 }

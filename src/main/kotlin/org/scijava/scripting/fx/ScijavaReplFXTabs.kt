@@ -40,38 +40,39 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.scijava.Context
 
-class ScijavaReplFXTabs(
+class ScijavaReplFXTabs @JvmOverloads constructor (
         private val context: Context,
+        private val bindings: Map<String, *> = mapOf<String, Any>(),
         private val increaseFontKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_ANY)),
         private val decreaseFontKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_ANY)),
         private val evalKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN)),
         private val exitKeyCombination: Collection<KeyCombination> = setOf (KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)),
         private val createNewReplCombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
-        private val cycleTabsForwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN)),
-        private val cycleTabsBackwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
-        private val bindings: Map<String, *> = mapOf<String, Any>()
+        private val cycleTabsForwardCombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN)),
+        private val cycleTabsBackwardCombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN))
 ) {
 
+    @JvmOverloads
     constructor(
             context: Context,
+            vararg bindings: Pair<String, *>,
             increaseFontKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_ANY)),
             decreaseFontKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_ANY)),
             evalKeys: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN)),
             exitKeyCombination: Collection<KeyCombination> = setOf (KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)),
             createNewReplCombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
             cycleTabsForwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN)),
-            cycleTabsBackwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN)),
-            vararg bindings: Pair<String, *>
+            cycleTabsBackwardKombination: Collection<KeyCombination> = setOf(KeyCodeCombination(KeyCode.TAB, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN))
     ) : this(
             context,
+            mapOf(*bindings),
             increaseFontKeys,
             decreaseFontKeys,
             evalKeys,
             exitKeyCombination,
             createNewReplCombination,
             cycleTabsForwardKombination,
-            cycleTabsBackwardKombination,
-            mapOf(*bindings))
+            cycleTabsBackwardKombination)
 
 
     private val tabPane = TabPane()
@@ -113,11 +114,11 @@ class ScijavaReplFXTabs(
                     it.consume()
                     GlobalScope.launch { repl.evalCurrentPrompt() }
                 }
-                cycleTabsForwardKombination.any { c -> c.match(it) } -> {
+                cycleTabsForwardCombination.any { c -> c.match(it) } -> {
                     it.consume()
                     cycleForward()
                 }
-                cycleTabsBackwardKombination.any { c -> c.match(it) } -> {
+                cycleTabsBackwardCombination.any { c -> c.match(it) } -> {
                     it.consume()
                     cycleBackward()
                 }
@@ -134,6 +135,9 @@ class ScijavaReplFXTabs(
             }
         }
     }
+
+    val hasPrompts: Boolean
+        get() = this.replIds.isNotEmpty()
 
     @Synchronized
     private fun addTab(repl: SciJavaReplFX): Int {

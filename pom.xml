@@ -134,4 +134,15 @@
 			<url>https://maven.scijava.org/content/groups/public/</url>
 		</repository>
 	</repositories>
+
+	<profiles>
+		<!-- Launch the GUI via Maven using: mvn -Pexec,repl -->
+		<profile>
+			<id>repl</id>
+			<properties>
+				<main-class>org.scijava.scripting.fx.SciJavaReplFXExampleKt</main-class>
+				<exec.classpathScope>test</exec.classpathScope>
+			</properties>
+		</profile>
+	</profiles>
 </project>

@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>scijava-repl-fx</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 
 	<name>SciJava Scripting REPL FX</name>
 	<description>JavaFX frontend for SciJava JSR-223-compliant scripting plugins.</description>

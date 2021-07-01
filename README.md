@@ -1,4 +1,4 @@
-[![](https://travis-ci.com/scijava/scijava-repl-fx.svg?branch=master)](https://travis-ci.com/scijava/scijava-repl-fx)
+[![](https://github.com/scijava/scijava-repl-fx/actions/workflows/build-main.yml/badge.svg)](https://github.com/scijava/scijava-repl-fx/actions/workflows/build-main.yml)
 
 # SciJava REPL FX
 

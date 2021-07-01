@@ -72,8 +72,8 @@
 		<url>https://github.com/scijava/scijava-repl-fx/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>Travis CI</system>
-		<url>https://travis-ci.com/scijava/scijava-repl-fx</url>
+		<system>GitHub Actions</system>
+		<url>https://github.com/scijava/scijava-repl-fx/actions</url>
 	</ciManagement>
 
 	<properties>
@@ -82,7 +82,7 @@
 		<license.copyrightOwners>HHMI Janelia Research Campus.</license.copyrightOwners>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
-		<releaseProfiles>deploy-to-scijava</releaseProfiles>
+		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 
 		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>

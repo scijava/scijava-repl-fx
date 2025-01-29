@@ -1,4 +1,4 @@
-Copyright (c) 2019, HHMI Janelia Research Campus.
+Copyright (c) 2019 - 2025, HHMI Janelia Research Campus.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

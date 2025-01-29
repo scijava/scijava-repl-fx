@@ -2,7 +2,7 @@
  * #%L
  * JavaFX frontend for SciJava JSR-223-compliant scripting plugins.
  * %%
- * Copyright (C) 2019 HHMI Janelia Research Campus.
+ * Copyright (C) 2019 - 2025 HHMI Janelia Research Campus.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
